@@ -105,17 +105,50 @@ void countWaysDynamicProgramming(int numDice, int faces, int total) {
 
 
 // recursion with memoization
-using MemoizationMap = std::unordered_map<std::tuple<int, int>, int>;
+/* define types for memoization */
+using MemoizationKey = std::tuple<int, int>;
+using MemoizationMap = std::unordered_map<MemoizationKey, int, struct MemoizationHash>;
 
+/* hash function for memoizationKey */
 struct MemoizationHash {
-    std::size_t operator()(const std::tuple<int, int> &key) const {
+    std::size_t operator()(const MemoizationKey &key) const {
         return std::hash<int>()(std::get<0>(key)) ^ std::hash<int>()(std::get<1>(key));
     }
 };
+/* recursive function with memoization */
+void countWaysMemo(int numRemainingDice, int faces, int remainingSum, MemoizationMap &memo) {
+    if (numRemainingDice == 0 && remainingSum == 0) {
+        memo[std::make_tuple(numRemainingDice, remainingSum)] = 1;
+        return;
+    }
+    if (numRemainingDice == 0 || remainingSum == 0) {
+        memo[std::make_tuple(numRemainingDice, remainingSum)] = 0;
+        return;
+    }
+    MemoizationKey currentKey = std::make_tuple(numRemainingDice, remainingSum);
+    if(memo.find(currentKey) != memo.end()) {
+        return;
+    }
+    int ways = 0;
+    for (int faceValue = 1; faceValue <= faces; ++faceValue) {
+        if (remainingSum - faceValue >= 0) {
+            countWaysMemo(numRemainingDice - 1, faces, remainingSum - faceValue, memo);
+            ways += memo[std::make_tuple(numRemainingDice - 1, remainingSum - faceValue)];
+        }
+    }
+    memo[currentKey] = ways;
+}
+/* wrapper function to handle input and call recursive function */
+void countWaysRecursionMemo(int numDice, int faces, int total) {
+    inputArguments(numDice, faces, total);
+    MemoizationMap memo;
+    countWaysMemo(numDice, faces, total, memo);
+    std::cout << "The number of ways to get the total is: " << memo[std::make_tuple(numDice, total)] << std::endl;
+    std::cout << std::endl;
+}
 
 
-
-
+// combinatorics and probability
 
 
 
@@ -127,6 +160,7 @@ int main() {
     countWaysBruteForceMacro(numDice, faces, total);
 
     countWaysDynamicProgramming(numDice, faces, total);
+    countWaysRecursionMemo(numDice, faces, total);
 
 
     return 0;
