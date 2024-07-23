@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include <vector>   // dynamic programming
+#include <vector>   // dynamic programming, combinatorics and probability
 
 #include <unordered_map> // recursion with memoization
 #include <tuple>         // recursion with memoization
@@ -15,13 +15,13 @@
 
 // input: numDice, faces, total
 void inputArguments(int &numDice, int &faces, int &total) {
-    // std::cout << "Enter the number of dice: ";      std::cin >> numDice;
-    // std::cout << "Enter the number of faces: ";     std::cin >> faces;
-    // std::cout << "Enter the total: ";               std::cin >> total;
+    std::cout << "Enter the number of dice: ";      std::cin >> numDice;
+    std::cout << "Enter the number of faces: ";     std::cin >> faces;
+    std::cout << "Enter the total: ";               std::cin >> total;
 
-    numDice = 3;
-    faces = 6;
-    total = 7;
+    // numDice = 3;
+    // faces = 6;
+    // total = 7;
 
     if(numDice < 1 || faces < 1 || total < 1) {
         std::cout << "Invalid input. Please enter a valid input." << std::endl;
@@ -146,10 +146,6 @@ void countWaysRecursionMemo(int numDice, int faces, int total) {
     std::cout << "The number of ways to get the total is: " << memo[std::make_tuple(numDice, total)] << std::endl;
     std::cout << std::endl;
 }
-
-
-// combinatorics and probability
-
 
 
 // main function
