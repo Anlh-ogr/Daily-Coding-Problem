@@ -4,7 +4,6 @@ Write a function, throw_dice(N, faces, total), that determines how many ways it 
 
  For example, throw_dice(3, 6, 7) should equal 15.
 
-
 ### Explaination:
 
 Viên xúc xắc có 6 mặt ứng với các số từ 1 đến 6. Khi ném ra cả 3 viên cùng lúc trong 1 lần, để tổng các mặt có giá trị là 7, sẽ có các trường hợp sau:
@@ -18,10 +17,8 @@ Các bộ ba khác nhau (không phân biệt thứ tự):
 
 tổng cộng có: 3 + 6 + 3 + 3 = 15 trường hợp
 
-
-### Solution:
+### Solution: tổ hợp và xác suất
 
 * Liệt kê thủ công - Brute Force Enumeration
 * Lập trình động - Dynamic Programming
 * Đệ quy với Ghi nhớ - Recursion with Memoization
-* Tổ hợp và Xác suất - Combinatorics and
