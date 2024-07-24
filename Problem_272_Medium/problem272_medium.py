@@ -82,6 +82,31 @@ def countWaysDynamicProgramming(numDice, faces, total):
     print("\n")
 
 
+# recursion with memoization
+def countWaysMemoization(num_RemainingDice, faces, total, memo):
+    if (num_RemainingDice, total) in memo:
+        return memo[(num_RemainingDice, total)]
+
+    if num_RemainingDice == 0 and total == 0:
+        return 1
+    
+    if num_RemainingDice == 0 or total == 0:
+        return 0
+    
+    ways = 0
+    for face in range(1, faces + 1):
+        if total - face >= 0:
+            ways += countWaysMemoization(num_RemainingDice - 1, faces, total - face, memo)
+            
+    memo[(num_RemainingDice, total)] = ways
+    return ways
+
+def countWaysRecursionWithMemoization(numDice, faces, total):
+    memo ={}
+    result = countWaysMemoization(numDice, faces, total, memo)
+    print(f"The number of ways to get the total is: {result}")
+
+
 # Main
 def main():
     numDice, faces, total = inputArguments()
@@ -92,6 +117,9 @@ def main():
     
     numDice, faces, total = inputArguments()
     countWaysDynamicProgramming(numDice, faces, total)
+    
+    numDice, faces, total = inputArguments()
+    countWaysRecursionWithMemoization(numDice, faces, total)
     
 if __name__ == "__main__":
     main()
