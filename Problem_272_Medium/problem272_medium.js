@@ -99,7 +99,10 @@ function count_waysBruteForceMacro(numDice, faces, total) {
 
 // dynamic programming solution
 function countWaysDynamicProgramming(numDice, faces, total) {
-    const waysToAchiveSum Array.from({})
+    const waysToAchieveSum = Array.from({ length : numDice + 1}, () => Array(total + 1).fill(0));
+    waysToAchieveSum[0][0] = 1;
+
+    
 }
 
 
