@@ -121,7 +121,29 @@ function countWaysRecursionMemo(numDice, faces, total) {
     const memo = Array.from({ length: numDice + 1 }, () => Array(total + 1).fill(null));
     
     // define the helper function to perform the recursion with memoization
-    function countWaysRecursionMemoHelper(diceLeft, remainingTotal) {}
+    function countWaysRecursionMemoHelper(diceLeft, remainingTotal) {
+        // base case: if there are no dice left, check if the total is 0
+        if(diceLeft === 0 && remainingTotal === 0) return 1; // exact match
+        if(diceLeft === 0 || remainingTotal < 0) return 0; // invalid combination
+
+        // check if result is already computed and stored in the memo table
+        if(memo[diceLeft][remainingTotal] !== null) return memo[diceLeft][remainingTotal];
+
+        // calculate the number of ways
+        let ways = 0;
+        
+        for(let faceValue = 1; faceValue <= faces; faceValue++) {
+            ways += countWaysRecursionMemoHelper(diceLeft - 1, remainingTotal - faceValue);
+        }
+
+        // store the result in the memo table and return
+        memo[diceLeft][remainingTotal] = ways;
+        return ways;
+    }
+
+    // start the recursion with the initial numbers of dice and total
+    const result = countWaysRecursionMemoHelper(numDice, total);
+    return `The number of ways to get the total is: ${result}`; 
 }
 
 
@@ -147,6 +169,13 @@ function main() {
         let [numDice, faces, total] = args;
         console.log(`Dynamic programming method: ${numDice} dice, ${faces} faces, ${total} total`);
         console.log(countWaysDynamicProgramming(numDice, faces, total) + '\n');
+    }
+
+    args = inputArguments();
+    if(args) {
+        let [numDice, faces, total] = args;
+        console.log(`Recursion with memoization method: ${numDice} dice, ${faces} faces, ${total} total`);
+        console.log(countWaysRecursionMemo(numDice, faces, total));
     }
 }
 main();
