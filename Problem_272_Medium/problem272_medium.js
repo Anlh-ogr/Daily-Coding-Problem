@@ -92,7 +92,6 @@ function count_waysBruteForceMacro(numDice, faces, total) {
             });
         });
     }
-
     return `The number of ways to get the total is: ${validCombinations}`;
 }
 
@@ -100,14 +99,30 @@ function count_waysBruteForceMacro(numDice, faces, total) {
 // dynamic programming solution
 function countWaysDynamicProgramming(numDice, faces, total) {
     const waysToAchieveSum = Array.from({ length : numDice + 1}, () => Array(total + 1).fill(0));
-    waysToAchieveSum[0][0] = 1;
+    waysToAchieveSum[0][0] = 1; // base case: there's one way to get a sum of 0 with 0 dice
 
-    
+    // loop through each dice count from 1 to numDice
+    for (let diceCount = 1; diceCount <= numDice; diceCount++) {
+        // loop through each possible sum from 1 to total
+        for (let currentSum = 1; currentSum <= total; currentSum++) {
+            // loop through each face value from 1 to faces
+            for (let faceValue = 1; faceValue <= faces && faceValue <= currentSum; faceValue++) {
+                waysToAchieveSum[diceCount][currentSum] += waysToAchieveSum[diceCount - 1][currentSum - faceValue];
+            }
+        }
+    }
+    return `The number of ways to get the total is: ${waysToAchieveSum[numDice][total]}`;
 }
 
 
-
 // recursion with memoization
+function countWaysRecursionMemo(numDice, faces, total) {
+    // create a memoization table initialized with null values
+    const memo = Array.from({ length: numDice + 1 }, () => Array(total + 1).fill(null));
+    
+    // define the helper function to perform the recursion with memoization
+    function countWaysRecursionMemoHelper(diceLeft, remainingTotal) {}
+}
 
 
 // main
@@ -124,7 +139,14 @@ function main() {
     if(args) {
         let [numDice, faces, total] = args;
         console.log(`Brute force method: ${numDice} dice, ${faces} faces, ${total} total`);
-        count_waysBruteForceMacro(numDice, faces, total);
+        console.log(count_waysBruteForceMacro(numDice, faces, total) + '\n');
+    }
+
+    args = inputArguments();
+    if(args) {
+        let [numDice, faces, total] = args;
+        console.log(`Dynamic programming method: ${numDice} dice, ${faces} faces, ${total} total`);
+        console.log(countWaysDynamicProgramming(numDice, faces, total) + '\n');
     }
 }
 main();
